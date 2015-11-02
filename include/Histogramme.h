@@ -5,6 +5,7 @@
 
 #include "Classe.h"
 
+template <class Order = std::less<>>
 struct Histogramme {
 	Histogramme(float min, float max, std::size_t nbClasses);
 
@@ -12,21 +13,41 @@ struct Histogramme {
 	Histogramme(float min, float max, std::size_t nbClasses, InputIte dataBeg, InputIte dataEnd);
 
 //private:
-	std::set<Classe> _classes;
+	std::set<Classe, Order> _classes;
 };
 
+template <class Order>
 template <class InputIte>
-Histogramme::Histogramme(float min, float max, std::size_t nbClasses, InputIte dataBeg, InputIte dataEnd)
-	: Histogramme(min, max, nbClasses) {
+Histogramme<Order>::Histogramme(float min, float max, std::size_t nbClasses, InputIte dataBeg, InputIte dataEnd) {
 
-	std::for_each(dataBeg, dataEnd, [this](auto const &val) {
-		auto classe = std::find_if(begin(_classes), end(_classes), [&val](Classe const &classe) {
+	std::vector<Classe> classes;
+	classes.reserve(nbClasses);
+	std::generate_n(
+		std::back_inserter(classes),
+		nbClasses,
+		[min, cl = (max - min) / nbClasses, i = std::size_t{0}]() mutable {
+			Classe c(min + i * cl, min + (i + 1) * cl);
+			++i;
+			return c;
+		}
+	);
+
+	std::for_each(dataBeg, dataEnd, [&classes](auto const &val) {
+		auto classe = std::find_if(begin(classes), end(classes), [&val](Classe const &classe) {
 			return classe.inf <= val && val < classe.sup;
 		});
 
-		if(classe == end(_classes))
+		if(classe == end(classes))
 			return;
 
 		++classe->qte;
 	});
+
+	std::copy(
+		begin(classes),
+		end(classes),
+		std::inserter(_classes, begin(_classes))
+	);
 }
+
+#include "Histogramme.tpp"

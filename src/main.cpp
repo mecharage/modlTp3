@@ -1,9 +1,10 @@
 #include <iostream>
-#include <Echantillon.h>
-
 #include <algorithm>
 #include <iterator>
-#include <Histogramme.h>
+#include <tuple>
+
+#include "Echantillon.h"
+#include "Histogramme.h"
 
 int main() {
 	using std::begin;
@@ -17,7 +18,13 @@ int main() {
 
 	std::copy(begin(ech), end(ech), std::ostream_iterator<float>(std::cout, ", "));
 
-	Histogramme hist{0.0f, 10.0f, 10u, begin(ech), end(ech)};
+	struct TriDecParQte {
+		bool operator () (Classe const &lhs, Classe const &rhs) const {
+			return std::tie(rhs.qte, lhs.inf) < std::tie(lhs.qte, rhs.inf);
+		}
+	};
+
+	Histogramme<TriDecParQte> hist{0.0f, 10.0f, 10u, begin(ech), end(ech)};
 
 	std::cout << '\n';
 
