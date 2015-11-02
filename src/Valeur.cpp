@@ -15,6 +15,5 @@ bool operator <= (float lhs, Valeur const &rhs) {
 }
 
 std::ostream &operator << (std::ostream &str, Valeur const &val) {
-	str << val.nom << " : " << val.note;
-	return str;
+	return str << val.nom << " : " << val.note;
 }
