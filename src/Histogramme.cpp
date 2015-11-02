@@ -9,7 +9,7 @@ Histogramme::Histogramme(float min, float max, std::size_t nbClasses) {
 		std::back_inserter(_classes),
 		nbClasses,
 		[min, cl = (max - min) / nbClasses, i = std::size_t{0}]() mutable {
-			Classe c{min + i * cl, min + (i + 1) * cl};
+			Classe c(min + i * cl, min + (i + 1) * cl);
 			++i;
 			return c;
 		}

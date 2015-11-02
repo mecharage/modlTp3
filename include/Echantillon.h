@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <vector>
 
 #include "Valeur.h"
@@ -23,8 +24,8 @@ struct Echantillon {
 
 	void push_back(const_reference val);
 
-	reference operator [](size_t idx);
-	const_reference operator [](size_t idx) const;
+	reference operator [](std::size_t idx);
+	const_reference operator [](std::size_t idx) const;
 
 	reference min();
 	const_reference min() const;
