@@ -12,11 +12,15 @@ int main() {
 
 	Echantillon ech;
 
-	std::generate_n(std::back_inserter(ech), 10,[i = 0]() mutable { return ++i; });
+	std::generate_n(std::back_inserter(ech), 10,[i = 0]() mutable {
+		Valeur v{{5, char('a' + i)}, float(i)};
+		++i;
+		return v;
+	});
 
-	ech[4] = 42.0f;
+	ech[4].note = 42.0f;
 
-	std::copy(begin(ech), end(ech), std::ostream_iterator<float>(std::cout, ", "));
+	std::copy(begin(ech), end(ech), std::ostream_iterator<Valeur>(std::cout, ", "));
 
 	struct TriDecParQte {
 		bool operator () (Classe const &lhs, Classe const &rhs) const {
