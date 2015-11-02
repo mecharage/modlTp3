@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <set>
 #include <algorithm>
 
 #include "Classe.h"
@@ -12,7 +12,7 @@ struct Histogramme {
 	Histogramme(float min, float max, std::size_t nbClasses, InputIte dataBeg, InputIte dataEnd);
 
 //private:
-	std::vector<Classe> _classes;
+	std::set<Classe> _classes;
 };
 
 template <class InputIte>
