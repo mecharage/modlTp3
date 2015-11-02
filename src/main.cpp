@@ -31,5 +31,12 @@ int main() {
 	for(Classe const &c : hist._classes)
 		std::cout << "[" << c.inf << ";" << c.sup << "] " << c.qte << "\n";
 
+	std::cout << "------------------------------\n";
+
+	Histogramme<> hist2{hist};
+
+	for(Classe const &c : hist2._classes)
+		std::cout << "[" << c.inf << ";" << c.sup << "] " << c.qte << "\n";
+
 	return 0;
 }
